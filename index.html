@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html ng-app>
-    <script src="js-lib/angular.min.js"></script>
-    <script src="js-lib/underscore-min.js"></script>
-    <script type="text/javascript" src="text/todo.js"></script>
-    <script type="text/css" src="todo.css"></script>
-    <link rel="stylesheet" href="js-lib/bootstrap.min.js">
+<html ng-app="todoApp">
+<script src="js-lib/angular.min.js"></script>
+<script src="js-lib/underscore-min.js"></script>
+<script type="text/javascript" src="text/todo.js"></script>
+<script type="text/css" src="todo.css"></script>
+<link rel="stylesheet" href="js-lib/bootstrap.min.js">
 </head>
 <body>
-<div ng-controller="TodoCtrl">
+<h2>Todo</h2>
+
+<div ng-controller="TodoListController as todoList">
+    <span>{{todoList.remaining()}} of {{todoList.todos.length}} remaining</span>
+    [ <a href="" ng-click="todoList.archive()">archive</a> ]
+    <ul class="unstyled">
+        <li ng-repeat="todo in todoList.todos">
+            <input type="checkbox" ng-model="todo.done">
+            <span class="done-{{todo.done}}">{{todo.text}}</span>
+        </li>
+    </ul>
+
+    <form ng-submit="todoList.addTodo()">
+        <input type="text" ng-model="todoList.todoText" size="30" placeholder="add new todo here">
+        <input class="btn-primary" type="submit" value="add">
+    </form>
+
 
 </div>
 </body>
