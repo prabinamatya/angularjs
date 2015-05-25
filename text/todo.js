@@ -2,25 +2,34 @@
  * Created by pnamatya on 5/24/15.
  */
 
-function TodoCtrl($scope) {
-    $scope.todos = [
-        {text:'Learn AngularJS', done:false},
-        {text:'Build an app', done:false}
-    ];
+angular.module('todoApp', [])
+    .controller('TodoListController', function() {
+       var todoList = this;
+        todoList.todos = [
+            {text:'learn angular', done:true},
+            {text:'build an angular app', done:false}];
 
-    $scope.getTotalTodos = function () {
-        return $scope.todos.length;
-    };
+        todoList.addTodo = function() {
+            todoList.todos.push({text:todoList.todoText, done:false});
+            todoList.todoText = '';
+        };
 
-    $scope.clearCompleted = function () {
-        $scope.todos = _.filter($scope.todos, function(todo){
-            return !todo.done;
-        });
-    };
+        todoList.remaining = function() {
+            var count = 0;
+            angular.forEach(todoList.todos, function(todo) {
+                count += todo.done ? 0 : 1;
+            });
+            return count;
+        };
 
-    $scope.addTodo = function () {
-        $scope.todos.push({text:$scope.formTodoText, done:false});
-        $scope.formTodoText = '';
-    };
-}
+        todoList.archive = function() {
+            var oldTodos = todoList.todos;
+            todoList.todos = [];
+            angular.forEach(oldTodos, function(todo) {
+               if(!todo.done) {
+                   todoList.todos.push(todo);
+               }
+            });
+        };
+    });
 
